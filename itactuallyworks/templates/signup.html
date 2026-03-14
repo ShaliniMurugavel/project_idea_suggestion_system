@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f0f2ff 0%, #e8ecff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+         body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+
+    background: 
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+         url("{% static 'images/bgimage.jpeg' %}");
+         }
+
+        .auth-card {
+            background:#bfa7e5;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 420px;
+            padding: 48px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            
+        }
+
+        .welcome-section {
+           text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .welcome-section h1 {
+            color: var(--text-primary);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .welcome-section p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 16px 20px 16px 48px;
+            border: 2px solid #e8ecff;
+            border-radius: 16px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0066ff;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+
+        .form-group::before {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .additional-fields {
+            margin-top: 16px;
+        }
+
+        .additional-fields .form-group {
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        button::before {
+            
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 102, 255, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .links {
+            text-align: center;
+        }
+
+        .links a {
+            color: #0066ff;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: #00ccff;
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 40px 24px;
+                margin: 10px;
+            }
+            
+            .welcome-section h2 {
+                font-size: 28px;
+            }
+        }
+        .hidden {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="motion-bg"></div>
+    <div class="auth-card">
+        <div class="welcome-section">
+            <h1>👋 Welcome Back</h1>
+            <p>Join our learning community</p>
+        </div>
+        <form method="POST" action="{% url 'users:signup' %}">
+         {% csrf_token %}
+        <div class="form-group" id="nameGroup">
+            <input type="text" name="name" placeholder="Full Name" required>
+
+        </div>
+        
+        <div class="form-group" id="emailGroup">
+           <input type="email" name="email" placeholder="📧 Email Address" required>
+
+        </div>
+        
+        <div class="form-group" id="passwordGroup">
+            <input type="password" name="password" placeholder="🔒Password" required>
+
+        </div>
+        
+        <div class="form-group" id="repasswordGroup">
+            <input type="password" name="repassword" placeholder="🔒Confirm Password" required>
+
+        </div>
+
+        <div class="form-group" id="roleGroup">
+            <select name="role" required>
+                <option value="">🎓 Select Role</option>
+                <option value="student">💻Student</option>
+                <option value="working">💼Working Professional</option>
+            </select>
+        </div>
+        <div id="studentFields" class="additional-fields hidden">
+    <div class="form-group">
+        <select name="level">
+            <option value="">Education Status</option>
+            <option value="UG">UG</option>
+            <option value="PG">PG</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="text" name="degree" placeholder="Degree">
+    </div>
+    <div class="form-group">
+        <input type="text" name="branch" placeholder="Branch">
+    </div>
+</div>
+
+<div id="workingFields" class="additional-fields hidden">
+    <div class="form-group">
+        <input type="number" name="experience" placeholder="Experience (Years)" min="0">
+    </div>
+</div>
+
+        
+
+
+    <!-- your input fields -->
+
+    <button type="submit">🚀 Create Account</button>
+
+    </form>
+
+    </div>
+
+    <script>
+        function roleChange() {
+            const role = document.getElementById('role').value;
+            const studentFields = document.getElementById('studentFields');
+            const workingFields = document.getElementById('workingFields');
+            
+            studentFields.classList.add('hidden');
+            workingFields.classList.add('hidden');
+            
+            if (role === 'student') {
+                studentFields.classList.remove('hidden');
+            } else if (role === 'working') {
+                workingFields.classList.remove('hidden');
+            }
+        }
+
+        
+    </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const roleSelect = document.querySelector("select[name='role']");
+    const studentFields = document.getElementById("studentFields");
+    const workingFields = document.getElementById("workingFields");
+
+    roleSelect.addEventListener("change", function() {
+
+        if (this.value === "student") {
+            studentFields.classList.remove("hidden");
+            workingFields.classList.add("hidden");
+        } 
+        else if (this.value === "working") {
+            workingFields.classList.remove("hidden");
+            studentFields.classList.add("hidden");
+        } 
+        else {
+            studentFields.classList.add("hidden");
+            workingFields.classList.add("hidden");
+        }
+
+    });
+
+});
+</script>
+
+</body>
+</html>

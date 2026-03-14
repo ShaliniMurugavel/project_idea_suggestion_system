@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - ProjectHub</title>
+    <style>
+        :root {
+            --bg-primary: #f5f5f5; --bg-secondary: #ffffff;
+            --text-primary: #333; --text-secondary: #666;
+            --accent: #007bff; --shadow: rgba(0,0,0,0.1);
+            --font: 'Segoe UI', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: var(--font); 
+            background: var(--bg-primary); 
+            color: var(--text-secondary); 
+            line-height: 1.6; 
+            min-height: 100vh; 
+        }
+        header { 
+            background: var(--bg-secondary); 
+            padding: 1.5rem 2rem; 
+            box-shadow: 0 2px 10px var(--shadow); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        h1 { 
+            color: var(--text-primary); 
+            font-size: 1.8rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+        }
+        .nav-links { display: flex; gap: 0; }
+        .nav-links a { 
+            color: var(--accent); 
+            text-decoration: none; 
+            margin: 0 0 0 1rem; 
+            padding: 0.6rem 1.2rem; 
+            border-radius: 6px; 
+            transition: all 0.2s; 
+            font-weight: 500; 
+        }
+        .nav-links a:hover { background: var(--accent); color: white; }
+        
+        main { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        
+        .results-info {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.8rem;
+        }
+        .project-card {
+            background: var(--bg-secondary);
+            padding: 1.8rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px var(--shadow);
+            border-left: 5px solid var(--accent);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), rgba(0,123,255,0.5));
+        }
+        .project-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 45px rgba(0,123,255,0.25); 
+        }
+        .project-badge {
+            background: linear-gradient(45deg, var(--accent), #0056b3);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        .project-title { 
+            color: var(--text-primary); 
+            font-size: 1.35rem; 
+            margin-bottom: 0.75rem; 
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .project-meta { 
+            display: flex; 
+            gap: 0.75rem; 
+            margin-bottom: 1rem; 
+            flex-wrap: wrap;
+        }
+        .project-meta span {
+            background: rgba(0,123,255,0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .project-desc { 
+            color: var(--text-secondary); 
+            margin-bottom: 1.5rem; 
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .project-actions { 
+            display: flex; 
+            gap: 0.75rem; 
+        }
+        .btn { 
+            flex: 1; 
+            padding: 0.75rem 1rem; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-primary { 
+            background: linear-gradient(45deg, var(--accent), #0056b3); 
+            color: white; 
+        }
+        .btn-secondary { 
+            background: transparent; 
+            color: var(--accent); 
+            border: 2px solid var(--accent);
+        }
+        .btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+        }
+        
+        @media (max-width: 768px) { 
+            main { padding: 0 1rem; } 
+            header { flex-direction: column; gap: 1rem; padding: 1rem; } 
+            .project-actions { flex-direction: column; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+        <style>
+        /* LIGHT MODE (Default) */
+        :root {
+            --bg-color: #f4f6fb;
+            --text-color: #222;
+            --nav-color: #e0d8ff;
+            --hero-bg: linear-gradient(to right, #d8cfff, #c2f0e5);
+        }
+
+        /* DARK MODE */
+        body.dark-mode {
+            --bg-color: #1e1e2f;
+            --text-color: #ffffff;
+            --nav-color: #2c2c3c;
+            --hero-bg: linear-gradient(to right, #2a2a40, #1b1b2d);
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: 0.4s ease;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--nav-color);
+        }
+
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--hero-bg);
+            text-align: center;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📋 Projects</h1>
+        <div class="nav-links">
+            <a href="{% url 'users:homepage' %}">🏠Homepage</a>
+            <a href="{% url 'users:dashboard' %}">📊 Dashboard</a>
+            <a href="{% url 'users:bookmark_page' %}">🔖 Bookmark</a>
+            <a href="{% url 'users:feedback' %}">💬 Feedback</a>
+            <a href="{% url 'users:logout' %}">Logout</a>
+        </div>
+        
+    </header>
+
+    <main>
+        <form style="display:none;">
+    {% csrf_token %}
+</form>
+        
+        
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Dynamic content -->
+        </div>
+    </main>
+
+    <script>
+        function getParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        domain: params.get("domain"),
+        level: params.get("level")
+    };
+}
+
+const { domain, level } = getParams();
+        const projects = [
+
+/* ======================= DATA SCIENCE ======================= */
+{id:101,title:'Student Performance Analysis',domain:'Data Science',level:'Beginner',desc:'Analyze student grades using Pandas & Matplotlib',badge:'Data'},
+{id:102,title:'Sales Data Analysis',domain:'Data Science',level:'Beginner',desc:'Retail sales insights using Python & SQL',badge:'Data'},
+{id:103,title:'Stock Price Trend Visualization',domain:'Data Science',level:'Beginner',desc:'Visualizing stock trends with charts',badge:'Finance'},
+{id:104,title:'Movie Ratings Analysis',domain:'Data Science',level:'Beginner',desc:'IMDb dataset insights & visualization',badge:'EDA'},
+{id:105,title:'Predicting House Prices',domain:'Data Science',level:'Intermediate',desc:'Regression model for house pricing',badge:'ML'},
+{id:106,title:'Credit Card Fraud Detection',domain:'Data Science',level:'Intermediate',desc:'Fraud detection using ML models',badge:'Security'},
+{id:107,title:'E-Commerce Recommendation System',domain:'Data Science',level:'Intermediate',desc:'Product recommendation engine',badge:'AI'},
+{id:108,title:'Predictive Maintenance for Machines',domain:'Data Science',level:'Advanced',desc:'Failure prediction using ML',badge:'Industry'},
+{id:109,title:'Healthcare Disease Prediction',domain:'Data Science',level:'Advanced',desc:'ML-based disease detection system',badge:'Health'},
+
+/* ======================= MACHINE LEARNING ======================= */
+{id:201,title:'Iris Flower Classification',domain:'Machine Learning',level:'Beginner',desc:'Classification using ML algorithms',badge:'ML'},
+{id:202,title:'Titanic Survival Prediction',domain:'Machine Learning',level:'Beginner',desc:'Predict survival using Logistic Regression',badge:'ML'},
+{id:203,title:'Spam Email Classifier',domain:'Machine Learning',level:'Beginner',desc:'NLP spam filtering model',badge:'NLP'},
+{id:204,title:'Stock Market Trend Prediction',domain:'Machine Learning',level:'Intermediate',desc:'Time-series forecasting model',badge:'Finance'},
+{id:205,title:'Handwritten Digit Recognition',domain:'Machine Learning',level:'Intermediate',desc:'MNIST classification model',badge:'Vision'},
+{id:206,title:'Real-Time Object Detection',domain:'Machine Learning',level:'Advanced',desc:'Object detection using YOLO',badge:'AI'},
+{id:207,title:'Fraud Detection in Banking',domain:'Machine Learning',level:'Advanced',desc:'Anomaly detection system',badge:'Security'},
+
+/* ======================= DEEP LEARNING ======================= */
+{id:301,title:'Basic Image Classification',domain:'Deep Learning',level:'Beginner',desc:'Cats vs Dogs classifier',badge:'DL'},
+{id:302,title:'Face Detection System',domain:'Deep Learning',level:'Beginner',desc:'Detect faces using CNN',badge:'Vision'},
+{id:303,title:'Emotion Detection',domain:'Deep Learning',level:'Intermediate',desc:'Facial emotion recognition model',badge:'AI'},
+{id:304,title:'Speech Recognition System',domain:'Deep Learning',level:'Intermediate',desc:'Convert speech to text',badge:'Audio'},
+{id:305,title:'GAN Image Generator',domain:'Deep Learning',level:'Advanced',desc:'Generate images using GANs',badge:'Advanced'},
+{id:306,title:'Neural Machine Translation',domain:'Deep Learning',level:'Advanced',desc:'Multilingual translation model',badge:'NLP'},
+
+/* ======================= CLOUD ======================= */
+{id:401,title:'Cloud File Storage System',domain:'Cloud Computing',level:'Beginner',desc:'Simple cloud storage app',badge:'Cloud'},
+{id:402,title:'Static Website Hosting with CDN',domain:'Cloud Computing',level:'Beginner',desc:'Deploy website with CDN',badge:'Cloud'},
+{id:403,title:'Serverless Web App (AWS Lambda)',domain:'Cloud Computing',level:'Intermediate',desc:'Serverless deployment model',badge:'Serverless'},
+{id:404,title:'Scalable E-Commerce Platform',domain:'Cloud Computing',level:'Advanced',desc:'Auto-scaling cloud system',badge:'Scale'},
+{id:405,title:'Multi-Cloud Load Balancer',domain:'Cloud Computing',level:'Advanced',desc:'Multi-cloud architecture',badge:'Cloud'},
+
+/* ======================= DEVOPS ======================= */
+{id:501,title:'Automated CI/CD Pipeline',domain:'DevOps',level:'Beginner',desc:'Basic CI/CD with GitHub Actions',badge:'DevOps'},
+{id:502,title:'Dockerized Web Application',domain:'DevOps',level:'Beginner',desc:'Containerize web app using Docker',badge:'Docker'},
+{id:503,title:'Infrastructure as Code (Terraform)',domain:'DevOps',level:'Intermediate',desc:'Provision infra using Terraform',badge:'IaC'},
+{id:504,title:'Kubernetes Cluster Setup',domain:'DevOps',level:'Intermediate',desc:'Deploy microservices with K8s',badge:'K8s'},
+{id:505,title:'DevSecOps CI/CD Pipeline',domain:'DevOps',level:'Advanced',desc:'Security integrated pipeline',badge:'Security'},
+
+/* ======================= BLOCKCHAIN ======================= */
+{id:601,title:'Simple Cryptocurrency Wallet',domain:'Blockchain',level:'Beginner',desc:'Basic wallet app',badge:'Web3'},
+{id:602,title:'Smart Contract Voting System',domain:'Blockchain',level:'Beginner',desc:'Ethereum voting contract',badge:'Smart Contract'},
+{id:603,title:'NFT Marketplace',domain:'Blockchain',level:'Intermediate',desc:'Basic NFT trading platform',badge:'NFT'},
+{id:604,title:'DeFi Application',domain:'Blockchain',level:'Advanced',desc:'Decentralized finance app',badge:'DeFi'},
+
+/* ======================= IoT ======================= */
+{id:701,title:'Smart Home Automation',domain:'IoT',level:'Beginner',desc:'Control devices using IoT',badge:'IoT'},
+{id:702,title:'Smart Parking System',domain:'IoT',level:'Intermediate',desc:'IoT-based parking management',badge:'IoT'},
+{id:703,title:'Industrial IoT Predictive Maintenance',domain:'IoT',level:'Advanced',desc:'Industry IoT monitoring',badge:'Industry'},
+
+/* ======================= MOBILE ======================= */
+{id:801,title:'To-Do List App',domain:'Mobile App Development',level:'Beginner',desc:'Task management mobile app',badge:'Mobile'},
+{id:802,title:'Expense Tracker App',domain:'Mobile App Development',level:'Intermediate',desc:'Expense tracking with charts',badge:'Finance'},
+{id:803,title:'Ride-Sharing App',domain:'Mobile App Development',level:'Advanced',desc:'Cab booking system',badge:'Mobile'},
+
+/* ======================= GAME DEV ======================= */
+{id:901,title:'Tic-Tac-Toe Game',domain:'Game Development',level:'Beginner',desc:'Classic game implementation',badge:'Game'},
+{id:902,title:'2D Platformer Game',domain:'Game Development',level:'Intermediate',desc:'Mario-style platformer',badge:'Game'},
+{id:903,title:'3D Adventure Game',domain:'Game Development',level:'Advanced',desc:'3D world exploration game',badge:'Game'},
+
+/* ======================= CYBER SECURITY ======================= */
+{id:1001,title:'Password Strength Checker',domain:'Cyber Security',level:'Beginner',desc:'Check password strength',badge:'Security'},
+{id:1002,title:'Intrusion Detection System',domain:'Cyber Security',level:'Intermediate',desc:'Detect network intrusions',badge:'Security'},
+{id:1003,title:'AI-Based Intrusion Detection',domain:'Cyber Security',level:'Advanced',desc:'AI-powered IDS system',badge:'Advanced'},
+
+/* ======================= FULL STACK ======================= */
+{id:1101,title:'To-Do List Web App',domain:'Full Stack Development',level:'Beginner',desc:'CRUD web application',badge:'Web'},
+{id:1102,title:'Real-Time Chat Application',domain:'Full Stack Development',level:'Intermediate',desc:'Live chat with sockets',badge:'Realtime'},
+{id:1103,title:'AI-Powered Web Application',domain:'Full Stack Development',level:'Advanced',desc:'Web app integrated with AI',badge:'AI'},
+
+/*========================AIML=================================*/
+{id:1201,title:'AI Train Scheduler',domain:'AI/ML',level:'Intermediate',skills:'Python,Django',desc:'Metro optimization',badge:'Featured'},
+{id:1202,title:'Stock Predictor',domain:'AI/ML',level:'Beginner',skills:'ML,Python',desc:'Stock analysis',badge:'Popular'},
+{id:1203,title:'Image Recognition',domain:'AI/ML',level:'Advanced',skills:'PyTorch',desc:'CNN Model',badge:'Advanced'},
+
+  // Software Testing
+  {id:1301, title:'Simple Test Case Management System', domain:'Software Testing', level:'Beginner', skills:'Manual Testing', desc:'Basic test case management', badge:'New'},
+  {id:1302, title:'Bug Tracking System (Basic)', domain:'Software Testing', level:'Beginner', skills:'Manual Testing', desc:'Track and report bugs', badge:'New'},
+  {id:1303, title:'Automated Unit Testing for a Sample App', domain:'Software Testing', level:'Beginner', skills:'Python,Unit Testing', desc:'Automate unit tests', badge:'Popular'},
+  {id:1304, title:'Test Plan Documentation system', domain:'Software Testing', level:'Beginner', skills:'Documentation', desc:'Prepare test plans', badge:'New'},
+  {id:1305, title:'Basic Web Application Testing (Manual)', domain:'Software Testing', level:'Beginner', skills:'Manual Testing', desc:'Test web apps manually', badge:'New'},
+
+  {id:1306, title:'Test Automation Framework for Web Apps (Selenium)', domain:'Software Testing', level:'Intermediate', skills:'Selenium,Python', desc:'Web app automation', badge:'Popular'},
+  {id:1307, title:'Performance Testing of a Web Application', domain:'Software Testing', level:'Intermediate', skills:'JMeter,Load Testing', desc:'Measure performance', badge:'Popular'},
+  {id:1308, title:'Mobile App Testing Automation (Appium)', domain:'Software Testing', level:'Intermediate', skills:'Appium,Python', desc:'Automate mobile testing', badge:'Popular'},
+  {id:1309, title:'Regression Testing Suite for an Existing Application', domain:'Software Testing', level:'Intermediate', skills:'Python,Selenium', desc:'Automate regression tests', badge:'New'},
+  {id:1310, title:'Integration Testing for a Multi-Module System', domain:'Software Testing', level:'Intermediate', skills:'JUnit,Integration Testing', desc:'Test module interactions', badge:'New'},
+
+  {id:1311, title:'Continuous Testing Integration in CI/CD Pipeline', domain:'Software Testing', level:'Advanced', skills:'Jenkins,Selenium', desc:'CI/CD testing setup', badge:'Advanced'},
+  {id:1312, title:'AI-Powered Test Case Generation', domain:'Software Testing', level:'Advanced', skills:'Python,AI', desc:'Generate test cases using AI', badge:'Advanced'},
+  {id:1313, title:'Security Testing Automation', domain:'Software Testing', level:'Advanced', skills:'OWASP,ZAP', desc:'Automate security tests', badge:'Advanced'},
+  {id:1314, title:'Cloud-Based Test Management Platform', domain:'Software Testing', level:'Advanced', skills:'Cloud,Web', desc:'Manage tests on cloud', badge:'Advanced'},
+  {id:1315, title:'End-to-End Automated Testing Framework for Complex Systems', domain:'Software Testing', level:'Advanced', skills:'Selenium,Python,CI/CD', desc:'Full system automation', badge:'Advanced'},
+
+  // UI/UX Design
+  {id:1401, title:'Personal Portfolio Website Design', domain:'UI/UX Design', level:'Beginner', skills:'Figma,HTML,CSS', desc:'Portfolio design', badge:'New'},
+  {id:1402, title:'Simple Blog UI Design', domain:'UI/UX Design', level:'Beginner', skills:'Figma,HTML,CSS', desc:'Blog interface', badge:'New'},
+  {id:1403, title:'Basic Landing Page Design', domain:'UI/UX Design', level:'Beginner', skills:'Figma,HTML,CSS', desc:'Landing page UI', badge:'New'},
+  {id:1404, title:'Mobile App Wireframe for To-Do List', domain:'UI/UX Design', level:'Beginner', skills:'Figma,Wireframing', desc:'To-Do app wireframe', badge:'New'},
+  {id:1405, title:'Simple E-Commerce Product Page Design', domain:'UI/UX Design', level:'Beginner', skills:'Figma,HTML,CSS', desc:'Product page UI', badge:'Popular'},
+
+  {id:1406, title:'Multi-Page E-Commerce Website UI/UX', domain:'UI/UX Design', level:'Intermediate', skills:'Figma,AdobeXD', desc:'Full e-commerce UI', badge:'Popular'},
+  {id:1407, title:'Food Delivery App Design', domain:'UI/UX Design', level:'Intermediate', skills:'Figma,Wireframing', desc:'Delivery app UI', badge:'Popular'},
+  {id:1408, title:'Fitness Tracker App Design', domain:'UI/UX Design', level:'Intermediate', skills:'Figma,Wireframing', desc:'Fitness app UI', badge:'Popular'},
+  {id:1409, title:'Dashboard UI for Analytics Platform', domain:'UI/UX Design', level:'Intermediate', skills:'Figma,Data Visualization', desc:'Analytics dashboard', badge:'Popular'},
+  {id:1410, title:'Travel Booking App UI/UX', domain:'UI/UX Design', level:'Intermediate', skills:'Figma,Wireframing', desc:'Travel app interface', badge:'Popular'},
+
+  {id:1411, title:'AI-Powered Personal Finance App Design', domain:'UI/UX Design', level:'Advanced', skills:'Figma,AI', desc:'Finance app interface', badge:'Advanced'},
+  {id:1412, title:'Social Media Platform UI/UX', domain:'UI/UX Design', level:'Advanced', skills:'Figma,UX Research', desc:'Social media design', badge:'Advanced'},
+  {id:1413, title:'Healthcare Management System Design', domain:'UI/UX Design', level:'Advanced', skills:'Figma,UX Research', desc:'Healthcare system UI', badge:'Advanced'},
+  {id:1414, title:'Smart Home Automation App UI/UX', domain:'UI/UX Design', level:'Advanced', skills:'Figma,Wireframing', desc:'Smart home interface', badge:'Advanced'},
+  {id:1415, title:'Virtual Reality (VR) App Interface Design', domain:'UI/UX Design', level:'Advanced', skills:'Figma,VR Design', desc:'VR application UI', badge:'Advanced'},
+
+  // Big Data
+  {id:1501, title:'NYC Taxi Trip Analysis', domain:'Big Data', level:'Beginner', skills:'Python,Pandas', desc:'Analyze taxi pickups', badge:'New'},
+  {id:1502, title:'Home Price Prediction Model', domain:'Big Data', level:'Beginner', skills:'Python,Linear Regression', desc:'Housing price prediction', badge:'Popular'},
+  {id:1503, title:'Yelp Reviews Data Processing', domain:'Big Data', level:'Beginner', skills:'Hadoop,Hive', desc:'Clean Yelp review data', badge:'New'},
+  {id:1504, title:'Weather Data Analysis Dashboard', domain:'Big Data', level:'Beginner', skills:'Python,Matplotlib', desc:'Visualize weather data', badge:'New'},
+  {id:1505, title:'Simple E-commerce Sales Report', domain:'Big Data', level:'Beginner', skills:'SQL,Python', desc:'Retail sales reporting', badge:'Popular'},
+
+  {id:1506, title:'Twitter Sentiment Analysis Pipeline', domain:'Big Data', level:'Intermediate', skills:'Spark,Python', desc:'Real-time sentiment analysis', badge:'Popular'},
+  {id:1507, title:'Customer Churn Prediction System', domain:'Big Data', level:'Intermediate', skills:'Python,ML', desc:'Telecom churn prediction', badge:'Popular'},
+  {id:1508, title:'Movie Recommendation Engine', domain:'Big Data', level:'Intermediate', skills:'Spark,MLlib', desc:'Collaborative filtering', badge:'Popular'},
+  {id:1509, title:'Stock Market Data ETL Pipeline', domain:'Big Data', level:'Intermediate', skills:'Airflow,Python', desc:'ETL for stock data', badge:'New'},
+  {id:1510, title:'Website Traffic Analysis', domain:'Big Data', level:'Intermediate', skills:'Hive,Python', desc:'Analyze web traffic', badge:'New'},
+
+  {id:1511, title:'Real-time Fraud Detection System', domain:'Big Data', level:'Advanced', skills:'Kafka,Spark', desc:'Fraud detection pipeline', badge:'Advanced'},
+  {id:1522, title:'Distributed Log Analysis Platform', domain:'Big Data', level:'Advanced', skills:'ELK,Hadoop', desc:'Log analysis platform', badge:'Advanced'},
+  {id:1533, title:'Retail Inventory Optimization Lakehouse', domain:'Big Data', level:'Advanced', skills:'Databricks,Delta Lake', desc:'Inventory optimization', badge:'Advanced'},
+  {id:1544, title:'IoT Sensor Data Processing Pipeline', domain:'Big Data', level:'Advanced', skills:'Kafka,Flink,Cassandra', desc:'Process IoT data streams', badge:'Advanced'},
+  {id:1555, title:'Personalized News Recommendation', domain:'Big Data', level:'Advanced', skills:'TensorFlow,Spark', desc:'News recommendation engine', badge:'Advanced'},
+
+  // Data Engineering
+  {id:1601, title:'CSV to Database ETL Pipeline', domain:'Data Engineering', level:'Beginner', skills:'Python,Pandas,SQL', desc:'ETL from CSV to DB', badge:'New'},
+  {id:1602, title:'Log File Parser & Analyzer', domain:'Data Engineering', level:'Beginner', skills:'Python,SQLite', desc:'Parse and analyze logs', badge:'New'},
+  {id:1603, title:'API Data Collector', domain:'Data Engineering', level:'Beginner', skills:'Python,API', desc:'Collect and store API data', badge:'New'},
+  {id:1604, title:'Simple Airflow ETL Pipeline', domain:'Data Engineering', level:'Beginner', skills:'Airflow,Python', desc:'Schedule ETL jobs', badge:'Popular'},
+  {id:1605, title:'Data Cleaning Pipeline', domain:'Data Engineering', level:'Beginner', skills:'Python,Pandas', desc:'Clean sample datasets', badge:'New'},
+
+  {id:1606, title:'Data Warehouse Design', domain:'Data Engineering', level:'Intermediate', skills:'BigQuery,Redshift', desc:'Star schema warehouse', badge:'Popular'},
+  {id:1607, title:'Kafka Streaming Pipeline', domain:'Data Engineering', level:'Intermediate', skills:'Kafka,Spark', desc:'Real-time Twitter processing', badge:'Popular'},
+  {id:1608, title:'Batch ETL for Sales Data', domain:'Data Engineering', level:'Intermediate', skills:'Airflow,Python', desc:'Multi-source ETL', badge:'Popular'},
+  {id:1609, title:'AWS S3 Data Lake', domain:'Data Engineering', level:'Intermediate', skills:'AWS S3,Parquet,Athena', desc:'Partitioned data lake', badge:'Popular'},
+  {id:1610, title:'Real-time Dashboard Pipeline', domain:'Data Engineering', level:'Intermediate', skills:'Python,Tableau,PowerBI', desc:'Stream to dashboard', badge:'Popular'},
+
+  {id:1611, title:'End-to-End Data Platform', domain:'Data Engineering', level:'Advanced', skills:'Spark,Snowflake,BI', desc:'Complete data platform', badge:'Advanced'},
+  {id:1612, title:'Scalable ETL with Airflow + Spark', domain:'Data Engineering', level:'Advanced', skills:'Airflow,Spark', desc:'Distributed ETL for large datasets', badge:'Advanced'},
+  {id:1613, title:'Real-time Fraud Detection Pipeline', domain:'Data Engineering', level:'Advanced', skills:'Kafka,Flink,Cassandra,ML', desc:'Fraud detection system', badge:'Advanced'},
+  {id:1614, title:'IoT Sensor Data Streaming', domain:'Data Engineering', level:'Advanced', skills:'MQTT,Kafka,Spark,TimescaleDB', desc:'IoT streaming pipeline', badge:'Advanced'},
+  {id:1615, title:'Automated ML Pipeline', domain:'Data Engineering', level:'Advanced', skills:'Airflow,Kubeflow,Python', desc:'Feature store & model deployment', badge:'Advanced'},
+
+  // Embedded Systems
+  {id:1701, title:'LED Blinking with Arduino', domain:'Embedded Systems', level:'Beginner', skills:'Arduino', desc:'Basic LED control', badge:'New'},
+  {id:1702, title:'Temperature Monitor', domain:'Embedded Systems', level:'Beginner', skills:'Arduino,LM35', desc:'Measure and display temperature', badge:'New'},
+  {id:1703, title:'Simple Traffic Light Controller', domain:'Embedded Systems', level:'Beginner', skills:'Arduino,LEDs', desc:'Traffic light FSM', badge:'New'},
+  {id:1704, title:'Ultrasonic Distance Measurement', domain:'Embedded Systems', level:'Beginner', skills:'Arduino,HC-SR04', desc:'Distance measurement', badge:'New'},
+  {id:1705, title:'Button-Controlled LED Matrix Display', domain:'Embedded Systems', level:'Beginner', skills:'Arduino,GPIO', desc:'LED matrix control', badge:'Popular'},
+
+  {id:1706, title:'Smart Home Automation System', domain:'Embedded Systems', level:'Intermediate', skills:'ESP32,MQTT', desc:'Automated home control', badge:'Popular'},
+  {id:1707, title:'GPS Vehicle Tracker with GSM Alerts', domain:'Embedded Systems', level:'Intermediate', skills:'GPS,GSM,Microcontroller', desc:'Track vehicle location', badge:'Popular'},
+  {id:1708, title:'Digital Thermostat Controller', domain:'Embedded Systems', level:'Intermediate', skills:'PID,Arduino', desc:'Temperature control', badge:'Popular'},
+  {id:1709, title:'RFID Access Control System', domain:'Embedded Systems', level:'Intermediate', skills:'RFID,Microcontroller', desc:'Door lock with logging', badge:'Popular'},
+  {id:1710, title:'Line Following Robot', domain:'Embedded Systems', level:'Intermediate', skills:'IR Sensors,Motor Control', desc:'Follow line autonomously', badge:'Popular'},
+
+  {id:1711, title:'RTOS-Based Multi-Sensor Data Logger', domain:'Embedded Systems', level:'Advanced', skills:'FreeRTOS,SD Card', desc:'Log multiple sensors', badge:'Advanced'},
+  {id:1712, title:'Wireless ECG Monitoring System', domain:'Embedded Systems', level:'Advanced', skills:'Bluetooth,Signal Processing', desc:'Monitor ECG wirelessly', badge:'Advanced'},
+  {id:1713, title:'Autonomous Drone Flight Controller', domain:'Embedded Systems', level:'Advanced', skills:'IMU,GPS,PID', desc:'Drone stabilization controller', badge:'Advanced'},
+  {id:1714, title:'CAN Bus Automotive Dashboard', domain:'Embedded Systems', level:'Advanced', skills:'CAN Bus,TFT Display', desc:'Vehicle dashboard display', badge:'Advanced'},
+  {id:1715, title:'Predictive Maintenance IoT Gateway', domain:'Embedded Systems', level:'Advanced', skills:'Edge ML,Cloud', desc:'IoT anomaly detection', badge:'Advanced'},
+
+  // Robotics
+  {id:1801, title:'Line Following Robot', domain:'Robotics', level:'Beginner', skills:'Arduino,IR Sensors', desc:'Basic line following', badge:'New'},
+  {id:1802, title:'Obstacle Avoidance Robot', domain:'Robotics', level:'Beginner', skills:'Ultrasonic Sensors,Arduino', desc:'Avoid obstacles', badge:'New'},
+  {id:1803, title:'Bluetooth Controlled Car', domain:'Robotics', level:'Beginner', skills:'HC-05,Arduino', desc:'Control car via Bluetooth', badge:'Popular'},
+  {id:1804, title:'Color Sorting Robot', domain:'Robotics', level:'Beginner', skills:'Color Sensor,Servo', desc:'Sort objects by color', badge:'Popular'},
+  {id:1805, title:'Simple Robotic Arm', domain:'Robotics', level:'Beginner', skills:'Servo Motors,Joystick', desc:'Manual arm control', badge:'Popular'},
+
+  {id:1806, title:'Maze Solving Robot', domain:'Robotics', level:'Intermediate', skills:'IR Sensors,Algorithms', desc:'Autonomous maze navigation', badge:'Popular'},
+  {id:1807, title:'Voice Controlled Robot', domain:'Robotics', level:'Intermediate', skills:'Speech Recognition,Motor Control', desc:'Control robot by voice', badge:'Popular'},
+  {id:1808, title:'Gesture Controlled Robot', domain:'Robotics', level:'Intermediate', skills:'Accelerometer,Wireless', desc:'Control robot with gestures', badge:'Popular'},
+  {id:1809, title:'Autonomous Fire Fighting Robot', domain:'Robotics', level:'Intermediate', skills:'Flame Sensors,Pump', desc:'Extinguish fire autonomously', badge:'Advanced'},
+  {id:1810, title:'Pick and Place Robot', domain:'Robotics', level:'Intermediate', skills:'Computer Vision,Servo', desc:'Detect & move objects', badge:'Advanced'},
+
+  {id:1811, title:'SLAM Navigation Robot', domain:'Robotics', level:'Advanced', skills:'LiDAR,ROS', desc:'Map and navigate environment', badge:'Advanced'},
+  {id:1812, title:'Swarm Robotics System', domain:'Robotics', level:'Advanced', skills:'Multiple Bots,Flocking Algorithm', desc:'Collaborative robots', badge:'Advanced'},
+  {id:1813, title:'Computer Vision Object Tracker', domain:'Robotics', level:'Advanced', skills:'OpenCV,PID', desc:'Track objects in real-time', badge:'Advanced'},
+  {id:1814, title:'Biped Walking Robot', domain:'Robotics', level:'Advanced', skills:'Inverse Kinematics,Balance Control', desc:'Two-legged walking robot', badge:'Advanced'},
+  {id:1815, title:'Autonomous Drone with Obstacle Avoidance', domain:'Robotics', level:'Advanced', skills:'PX4,Computer Vision', desc:'Drone navigation & obstacle avoidance', badge:'Advanced'}
+];
+
+
+
+
+function viewProject(id) {
+    // Save selected project id
+    localStorage.setItem("selectedProject", id);
+    
+    // Redirect to detail page
+   window.location.href = "/projectdetail/";
+
+    
+}
+
+        let filteredProjects = projects.filter(p => {
+
+    let domainMatch = true;
+    let levelMatch = true;
+
+    if (domain) {
+        domainMatch = p.domain === domain;
+    }
+
+    if (level) {
+        levelMatch = p.level === level;
+    }
+
+    return domainMatch && levelMatch;
+});
+
+         function renderProjects() {
+    
+    const grid = document.getElementById("projectsGrid");
+
+    if (filteredProjects.length === 0) {
+        grid.innerHTML = `
+            <h2 style="text-align:center;width:100%;">
+              ❌ No projects found for:
+              <br>
+              ${domain || "All Domains"} - ${level || "All Levels"}
+            </h2>
+        `;
+        return;
+    }
+
+    grid.innerHTML = filteredProjects.map(p => `
+        <div class="project-card">
+
+            <div class="project-badge">${p.badge}</div>
+
+            <h3 class="project-title">${p.title}</h3>
+
+            <div class="project-meta">
+                <span>${p.domain}</span>
+                <span>${p.level}</span>
+            </div>
+
+            <p class="project-desc">${p.desc}</p>
+
+            <div class="project-actions">
+                <button class="btn btn-primary" onclick="viewProject(${p.id})">
+    👁️ Project Detail
+</button>
+
+                <button class="btn btn-secondary" onclick="bookmarkProject(${p.id})">
+                    🔖 Save
+                </button>
+            </div>
+
+        </div>
+    `).join("");
+}
+        const title = document.querySelector("h1");
+
+if (domain && level) {
+    title.innerText = `📋 ${domain} - ${level} Projects`;
+}
+else if (domain) {
+    title.innerText = `📋 ${domain} Projects`;
+}
+else {
+    title.innerText = `📋 All Projects`;
+}
+
+ function bookmarkProject(id) {
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    fetch(`/bookmark/${id}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("✅ Project bookmarked!");
+    })
+    .catch(error => {
+        console.error(error);
+        alert("❌ Failed to bookmark");
+    });
+
+}
+        // Initial load
+        renderProjects();
+    </script>
+</body>
+</html>

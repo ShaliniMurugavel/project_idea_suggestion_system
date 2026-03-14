@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Domain - ItActuallyWorks</title>
+
+<style>
+:root {
+     
+            --primary-gradient: linear-gradient(135deg, #0066ff 0%, #00ccff 100%);
+            --bg-primary: #f8faff;
+            --bg-secondary: rgba(255, 255, 255, 0.95);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: rgba(0, 102, 255, 0.2);
+            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 102, 255, 0.15);
+}
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f0f2ff 0%, #e8ecff 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+}
+
+.domain-hero {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: var(--primary-gradient);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .domain-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ffffff, rgba(255,255,255,0.5));
+        }
+
+        .domain-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .domain-hero h1::before {
+            
+            position: absolute;
+            left: -60px;
+            top: 0;
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+         .domain-hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto 5rem;
+            padding: 0 2rem;
+        }
+
+        .domain-card {
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px var(--shadow);
+            border-top: 5px solid transparent;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248, 250, 255, 0.8) 100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .domain-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px var(--shadow-hover);
+        }
+        .domain-card:hover::before {
+            opacity: 1;
+        }
+
+        .domain-card.selected {
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.15), 0 20px 50px var(--shadow-hover);
+            background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240, 248, 255, 0.95) 100%);
+        }
+
+        .domain-card.selected::before {
+            opacity: 1;
+        }
+        .domain-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .domain-card:hover .domain-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .domain-card h3 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .domain-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .domain-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .domain-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .continue-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            margin: 0 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .project-buttons {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+.btn {
+    background: var(--primary-gradient);
+            color: white;
+            border: none;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+     transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(56, 96, 228, 0.3);
+}
+
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 102, 255, 0.4);
+        }
+
+       
+            
+            .domain-hero {
+                padding: 4rem 1.5rem;
+            }
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.level-options {
+    display: none;
+    margin-top: 1rem;
+}
+
+.level-options button {
+    margin-right: 8px;
+    margin-top: 5px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #dbeafe;
+}
+
+.selected-level {
+    background: #0066ff !important;
+    color: white;
+}
+
+</style>
+</head>
+
+<body>
+<form id="domainForm" method="POST">
+    {% csrf_token %}
+
+    <input type="hidden" name="domain" id="domainInput">
+    <input type="hidden" name="level" id="levelInput">
+</form>
+
+
+<section class="domain-hero">
+    <h1>Choose Your Domain</h1>
+    <p>Select your primary focus area to get personalized project recommendations</p>
+</section>
+
+<div class="domains-grid">
+
+<!-- AI/ML -->
+<div class="domain-card" data-domain="AI/ML">
+    <div class="domain-icon">🤖</div>
+    <h3>AI/ML</h3>
+    <p>Build intelligent systems with neural networks, NLP, and computer vision</p>
+
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+
+    <div class="level-options">
+        <button type="button"onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Data Science -->
+<div class="domain-card" data-domain="Data Science">
+    <div class="domain-icon">📊</div>
+    <h3>Data Science</h3>
+    <p>Master analytics, visualization, and predictive modeling</p>
+
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+   <!-- cyber security -->
+<div class="domain-card" data-domain="Cyber Security">
+    <div class="domain-icon">🔒</div>
+    <h3>Cybersecurity</h3>
+    <p>Secure systems with encryption, authentication, and penetration testing</p>
+
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+   <!-- Web Development -->
+<div class="domain-card" data-domain="Web Dev">
+    <div class="domain-icon">🌐</div>
+    <h3>Web Development</h3>
+    <p>Full-stack applications with modern frameworks and APIs</p>
+
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+   <!-- Mobile Apps-->
+<div class="domain-card" data-domain="Mobile App Development">
+    <div class="domain-icon">📱</div>
+    <h3>Mobile Apps</h3>
+    <p>Cross-platform apps with React Native and Flutter</p>
+
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+   <!-- DevOps -->
+<div class="domain-card" data-domain="DevOps">
+    <div class="domain-icon">⚙️</div>
+    <h3>DevOps</h3>
+    <p>CI/CD pipelines, Docker, cloud deployment automation</p>
+
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+<!-- Machine Learning -->
+<div class="domain-card" data-domain="Machine Learning">
+    <div class="domain-icon">🧠</div>
+    <h3>Machine Learning</h3>
+    <p>Build predictive models and intelligent algorithms</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Deep Learning -->
+<div class="domain-card" data-domain="Deep Learning">
+    <div class="domain-icon">🤯</div>
+    <h3>Deep Learning</h3>
+    <p>Neural networks, CNNs, RNNs and advanced AI systems</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Cloud Computing -->
+<div class="domain-card" data-domain="Cloud Computing">
+    <div class="domain-icon">☁️</div>
+    <h3>Cloud Computing</h3>
+    <p>AWS, Azure, GCP and scalable cloud architectures</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Blockchain -->
+<div class="domain-card" data-domain="Blockchain">
+    <div class="domain-icon">⛓️</div>
+    <h3>Blockchain</h3>
+    <p>Smart contracts, decentralized apps and Web3</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- IoT -->
+<div class="domain-card" data-domain="IoT">
+    <div class="domain-icon">📡</div>
+    <h3>Internet of Things</h3>
+    <p>Connected devices and smart systems</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Game Development -->
+<div class="domain-card" data-domain="Game Development">
+    <div class="domain-icon">🎮</div>
+    <h3>Game Development</h3>
+    <p>Create 2D/3D games using Unity and Unreal</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Software Testing -->
+<div class="domain-card" data-domain="Software Testing">
+    <div class="domain-icon">🧪</div>
+    <h3>Software Testing</h3>
+    <p>Manual and automated testing strategies</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- UI/UX Design -->
+<div class="domain-card" data-domain="UI/UX Design">
+    <div class="domain-icon">🎨</div>
+    <h3>UI/UX Design</h3>
+    <p>Design beautiful and user-friendly interfaces</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Big Data -->
+<div class="domain-card" data-domain="Big Data">
+    <div class="domain-icon">📈</div>
+    <h3>Big Data</h3>
+    <p>Hadoop, Spark and large-scale data processing</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Data Engineering -->
+<div class="domain-card" data-domain="Data Engineering">
+    <div class="domain-icon">🏗️</div>
+    <h3>Data Engineering</h3>
+    <p>Build pipelines, ETL processes and data warehouses</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Embedded Systems -->
+<div class="domain-card" data-domain="Embedded Systems">
+    <div class="domain-icon">🔌</div>
+    <h3>Embedded Systems</h3>
+    <p>Microcontrollers, hardware programming and firmware</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Robotics -->
+<div class="domain-card" data-domain="Robotics">
+    <div class="domain-icon">🤖</div>
+    <h3>Robotics</h3>
+    <p>Automation, sensors and intelligent machines</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Full Stack Development -->
+<div class="domain-card" data-domain="Full Stack Development">
+    <div class="domain-icon">💻</div>
+    <h3>Full Stack Development</h3>
+    <p>Frontend + Backend + Database integration</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">Difficulty Level</button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">View Projects</button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+<!-- API Development -->
+<div class="domain-card" data-domain="API Development">
+    <div class="domain-icon">🔗</div>
+    <h3>API Development</h3>
+    <p>Design RESTful APIs, GraphQL services, and backend integrations</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+<!-- Business Intelligence -->
+<div class="domain-card" data-domain="Business Intelligence">
+    <div class="domain-icon">📊</div>
+    <h3>Business Intelligence</h3>
+    <p>Data dashboards, reporting systems, and decision-making analytics</p>
+    <div class="project-buttons">
+        <button class="btn btn-secondary" onclick="toggleLevels(this)">
+            Difficulty Level
+        </button>
+        <button class="btn btn-primary" onclick="viewProjects(this)">
+            View Projects
+        </button>
+    </div>
+    <div class="level-options">
+        <button type="button" onclick="selectLevel(this)">Beginner</button>
+        <button type="button" onclick="selectLevel(this)">Intermediate</button>
+        <button type="button" onclick="selectLevel(this)">Advanced</button>
+    </div>
+</div>
+
+
+</div>
+
+<script>
+function toggleLevels(button){
+    const card = button.closest('.domain-card');
+    const levelBox = card.querySelector('.level-options');
+
+    // Close other level boxes
+    document.querySelectorAll('.level-options').forEach(box=>{
+        if(box !== levelBox) box.style.display="none";
+    });
+
+    // Toggle current
+    levelBox.style.display = 
+        levelBox.style.display === "block" ? "none" : "block";
+}
+
+
+// When user selects difficulty → go to next page automatically
+function selectLevel(btn){
+    const card = btn.closest('.domain-card');
+    const domain = card.dataset.domain;
+    const level = btn.innerText;
+
+    // Highlight selected level
+    card.querySelectorAll('.level-options button')
+        .forEach(b => b.classList.remove('selected-level'));
+    btn.classList.add('selected-level');
+
+    // Redirect automatically
+        window.location.href = 
+    "/projects/?domain=" + encodeURIComponent(domain) +
+    "&level=" + encodeURIComponent(level);
+
+}
+
+
+// When user clicks View Projects
+function viewProjects(button){
+    const card = button.closest('.domain-card');
+    const domain = card.dataset.domain;
+
+    const selectedLevel = card.querySelector('.selected-level');
+
+    // If level selected → send with level
+    if(selectedLevel){
+        const level = selectedLevel.innerText;
+    window.location.href = 
+    "/projects/?domain=" + encodeURIComponent(domain) +
+    "&level=" + encodeURIComponent(level);
+
+    
+
+    }
+    else{
+        // If no level selected → go without level
+        window.location.href = 
+            "/projects/?domain=" + encodeURIComponent(domain);
+    }
+}
+</script>
+
+
+</body>
+</html>
