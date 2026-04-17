@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>itactuallyworks - Home</title>
+    <style>
+        :root {
+            --bg-primary: #f5f5f5; --bg-secondary: #ffffff;
+            --text-primary: #333; --text-secondary: #666;
+            --accent: #007bff; --shadow: rgba(0,0,0,0.1);
+            --font: 'Segoe UI', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: var(--font); 
+            background: var(--bg-primary); 
+            color: var(--text-secondary); 
+            line-height: 1.6; 
+            overflow-x: hidden;
+        }
+        
+        /* Navigation - Shared */
+        header { 
+            background: rgba(255,255,255,0.95); 
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            z-index: 1000;
+            box-shadow: 0 2px 20px var(--shadow);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent), #0056b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-links {
+            display: flex;
+            gap: 0;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+        .nav-links a:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+
+    background: 
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+         url("{% static 'images/bgimage.jpeg' %}");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+        .hero-content {
+            max-width: 900px;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent), #0056b3);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,123,255,0.3);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,123,255,0.4);
+        }
+        
+        .features {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+            grid-template-rows: repeat(2, auto);
+            grid-auto-flow: column;
+        }
+        .feature-card {
+            padding: 2.5rem;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 40px var(--shadow);
+            text-align: center;
+            border-top: 5px solid var(--accent);
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* About Us - Continuous Flow */
+        .about {
+            padding: 6rem 2rem 4rem;
+            background: var(--bg-primary);
+        }
+        .about .container {
+            max-width: 900px;
+        }
+        .about h2 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .about p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { flex-wrap: wrap; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">itactuallyworks</div>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#about">About Us</a>
+                <a href="{% url 'users:logout' %}">🚪 Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Build Your Dream Profile with us</h1>
+            <p>Build practical applications while learning industry-level coding standards and collaboration practices. 🚀</p>
+            <div class="cta-buttons">
+                <a href="{% url 'users:domain' %}" class="btn btn-primary">🚀 Start Now</a>
+                <a href="#features" class="btn btn-secondary">See Features</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; color: var(--text-primary); margin-bottom: 1rem;">
+                Why Choose itactuallyworks?
+            </h2>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 4rem;">  
+                Where student innovation meets professional visibility.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">🎯</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">Recommendations</h3>
+                    <p>Perfect projects matched to your skills, level, and career goals.</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">⭐</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">500+ Projects</h3>
+                    <p>Full-stack, AI/ML, DevOps, Cybersecurity - all tech stacks covered.</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">💼</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">Job Ready</h3>
+                    <p>Production-grade projects that impress interviewers.</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">🚀</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">Guided Roadmaps</h3>
+                    <p>Step-by-step project paths from beginner to advanced levels.</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">🧠</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">Real-World Use Cases</h3>
+                    <p>Projects inspired by real industry problems and business scenarios.</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">📈</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.5rem;">Skill Growth Tracking</h3>
+                    <p>Track your progress and see how your skills improve with every project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us - Continuous flow, no separate box -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>it'sactuallyworks is where students find complete project code based on their domains. We provide ready-to-use HTML/CSS/JS examples with professional themes that match your learning style. From login pages and editable dashboards to project filters—everything works offline without backend complexity.</p>
+            <p>Perfect for Computer Science students building impressive portfolios. Our platform helps you turn classroom ideas into job-ready projects with clean, responsive code that works across all devices.</p>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
